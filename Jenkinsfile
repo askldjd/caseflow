@@ -12,12 +12,12 @@
 // Helper function to call slackSend, which is part of the Jenkins Slack plugin.
 // See https://jenkins.io/doc/pipeline/steps/slack/
 def notify(message, color='good') {
-    slackSend message: message,
-              color: color,
-              channel: env.SLACK_CHANNEL,
-              teamDomain: env.SLACK_TEAM_DOMAIN,
-              token: env.SLACK_TOKEN,
-              failOnError: true
+    // slackSend message: message,
+    //           color: color,
+    //           channel: env.SLACK_CHANNEL,
+    //           teamDomain: env.SLACK_TEAM_DOMAIN,
+    //           token: env.SLACK_TOKEN,
+    //           failOnError: true
 }
 
 node {
@@ -96,14 +96,14 @@ node {
       // awhile to complete.
       stage ('deploy') {
         dir ('./appeals-deployment') {
-          sh "echo \"${env.VAULT_PASS}\" | \
-            ansible-playbook deploy-to-aws.yml \
-              --verbose \
-              -i localhost \
-              -e app_name=${APP_NAME} \
-              -e deploy_env=${APP_ENV} \
-              -e app_version=${APP_VERSION} \
-              --vault-password-file=/bin/cat"
+          // sh "echo \"${env.VAULT_PASS}\" | \
+          //   ansible-playbook deploy-to-aws.yml \
+          //     --verbose \
+          //     -i localhost \
+          //     -e app_name=${APP_NAME} \
+          //     -e deploy_env=${APP_ENV} \
+          //     -e app_version=${APP_VERSION} \
+          //     --vault-password-file=/bin/cat"
         }
       }
 
