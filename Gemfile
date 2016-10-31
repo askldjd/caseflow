@@ -49,7 +49,7 @@ gem "rainbow"
 gem "parallel"
 
 # execjs runtime
-gem 'therubyracer', platforms: :ruby
+gem 'mini_racer'
 
 gem 'pg', platforms: :ruby
 
@@ -68,7 +68,6 @@ group :development, :test do
   # Linters
   gem 'rubocop', '~> 0.36.0', require: false
   gem 'scss_lint', require: false
-  gem 'jshint', platforms: :ruby
 
   # Security scanners
   gem 'brakeman'
