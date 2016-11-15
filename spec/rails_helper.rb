@@ -31,6 +31,7 @@ require_relative "support/sauce_driver"
 # If you are not using ActiveRecord, you can remove this line.
 # ActiveRecord::Migration.maintain_test_schema!
 
+require "database_cleaner"
 require "capybara"
 Sniffybara::Driver.configuration_file = File.expand_path("../support/VA-axe-configuration.json", __FILE__)
 
@@ -79,11 +80,7 @@ end
 User.prepend(StubbableUser)
 
 def reset_application!
-  Task.delete_all
-  Appeal.delete_all
   User.clear_stub!
-  User.delete_all
-  Certification.delete_all
   Fakes::AppealRepository.records = nil
 end
 
@@ -125,4 +122,19 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # Set DB clean strategy to transaction (fastest), but initially do
+  # a truncation clean to ensure a fresh starting point
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      # # reset_application!
+      p "RUNNING TEST"
+      example.run
+    end
+  end
 end

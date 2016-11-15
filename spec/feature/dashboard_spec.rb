@@ -1,7 +1,8 @@
 require "rails_helper"
 
-RSpec.feature "Stats Dashboard" do
+RSpec.feature "Stats Dashboard", focus: true do
   before do
+    p "BEFORE BLOCK"
     Timecop.freeze(Time.utc(2015, 1, 1, 17, 55, 0))
 
     Certification.delete_all
